@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Person{
+	constructor(name,age,city){
+		this.name = name;
+		this.age = age;
+		this.city = city;
+	}
+// 메서드 생성
+	nextYearAge(){
+		return (this.age)+1
+	}
+}
+class Introduce extends Person{
+	constructor(name, age, city, dream){
+		super(name, age, city)
+		this.dream = dream
+	}
+	introduce(){
+		return `내년에 ${super.nextYearAge()}살이며, 장래희망은 ${this.dream}입니다.`
+	}
+}
+let park = new Introduce('park',23,'busan','developer')
+console.log(park.introduce())
+
+    </script>
+</body>
+</html>
