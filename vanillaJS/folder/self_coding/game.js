@@ -21,9 +21,13 @@ const bulletComProp = {
 const gameBackground ={
 	gameBox: document.querySelector('.game')
 }
+const stageInfo ={
+	stage: []
+}
 const gameProp = {
   screenWidth : window.innerWidth,
   screenHeight : window.innerHeight,
+	gameOver : false
 }
 
 const renderGame = () =>{
@@ -35,7 +39,15 @@ const renderGame = () =>{
 	allMonsterComProp.arr.forEach((arr, i)=>{
 		arr.moveMonster();
 	})
+	stageInfo.stage.clearCheck();
   window.requestAnimationFrame(renderGame); //재귀호출
+}
+
+const endGame = ()=>{
+	gameProp.gameOver = true;
+	key.keyDown.left = false;
+	key.keyDown.right = false;
+	document.querySelector('.game_over').classList.add('active')
 }
 const setGameBackground = () =>{
 	let parallaxValue = Math.min(0,((hero.movex - gameProp.screenWidth/3) *-1) ) ;
@@ -43,7 +55,7 @@ const setGameBackground = () =>{
 }
 const windowEvent = () => {
 	window.addEventListener('keydown', e => {
-		key.keyDown[key.keyValue[e.which]] = true;
+		if(!gameProp.gameOver) key.keyDown[key.keyValue[e.which]] = true;
 	});
 	window.addEventListener('keyup', e => {
 		key.keyDown[key.keyValue[e.which]] = false;
@@ -66,7 +78,8 @@ let hero;
 
 const init = () => {
 	hero = new Hero('.hero');
-	allMonsterComProp.arr[0] = new Monster(700, 7777);
+	stageInfo.stage = new Stage();
+
 	loadImg();
 	windowEvent();
   renderGame();

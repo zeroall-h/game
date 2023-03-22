@@ -33,6 +33,22 @@ body{margin:0;padding:0;}
 
 .monster_box{position:absolute;left:700px;bottom:0;z-index:90;width:280px;height:294px;will-change:transform;}
 .monster_box .monster{height:100%;background-image:url(../lib/images/monster/monster_green_run.png);background-size:2242px 294px;animation:monster_run 1s infinite steps(8)}
+.monster_box.yellow_mon .monster{background-image:url(../lib/images/monster/monster_yellow_run.png);}
+.monster_box.pink_mon .monster{background-image:url(../lib/images/monster/monster_pink_run.png);}
+
+.monster_box.green_mon_boss {width:450px;height:472px;}
+.monster_box.green_mon_boss .monster{background-image: url(../lib/images/monster/monster_green_run.png);background-size: 3600px 472px;animation:monster_run_boss 1s infinite steps(8)}
+
+.monster_box.yellow_mon_boss {width:450px;height:472px;}
+.monster_box.yellow_mon_boss .monster{background-image: url(../lib/images/monster/monster_yellow_run.png);background-size: 3600px 472px;animation:monster_run_boss 1s infinite steps(8)}
+
+.monster_box.pink_mon_boss {width:450px;height:472px;}
+.monster_box.pink_mon_boss .monster{background-image: url(../lib/images/monster/monster_pink_run.png);background-size: 3600px 472px;animation:monster_run_boss 1s infinite steps(8)}
+
+@keyframes monster_run_boss {
+  from{background-position-x: 0px;}
+  to{background-position-x: -3600px;}
+}
 
 @keyframes monster_run {
   from{background-position-x: 0px;}  
@@ -50,3 +66,29 @@ body{margin:0;padding:0;}
 .game_info .hero_state .state_box .hp {width: 100%; height: 10px; border:1px solid #000;}
 .hero_img img{width:100%}
 .game_info .hero_state .state_box .hp > span {display: block;width:100%;height:100%;background-color:red;transition:width 0.3s linear}
+
+.hero_box .hero.crash{background-image: url('../lib/images/ninja_crash.png');background-size:299px 182px;animation:hero_crash 0.4s 1 steps(2)}
+@keyframes hero_crash {
+  from{background-position-x: 0px;}
+  to{background-position-x:-299px}}
+
+.hero_box .hero.dead{background-image: url('../lib/images/ninja_dead.png');background-size:150px 182px;animation:none;transform:rotate(90deg)}
+
+.game_over{display:none;position:fixed;left:0;top:0;z-index:200;width:100%;height:100%;background-color: rgba(0,0,0,0.5);}
+.game_over.active{display:block;}
+.game_over p{display:flex;height:100%;justify-content:center;align-items:center;color:#fff;font-size:150px;margin:0}
+
+.text_damage{position:absolute;left:0;bottom:0;z-index:200;font-family: 'roboto'; font-size: 110px; background: linear-gradient(to bottom, rgba(196,41,30,1) 0%,rgba(230,89,191,1) 100%); -webkit-text-stroke: 5px rgba(255,255,255,.7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;animation:textDamage 0.5s ease-out;animation-fill-mode:both}
+
+@keyframes textDamage {
+0%{opacity:0;bottom:0;}  
+70%{opacity:1;bottom:50px;}
+100%{opacity:0;bottom:90px}  
+}
+
+.stage_box {position:absolute;left:50%;top:50%;z-index:190;transform:translate(-50%,-50%);color:#fff;font-size:90px;white-space: nowrap;animation:stageStart 1.5s;animation-fill-mode: both;}
+@keyframes stageStart {
+  0%{opacity:1;}
+  80%{opacity:1;}
+  100%{opacity:0;}
+}
