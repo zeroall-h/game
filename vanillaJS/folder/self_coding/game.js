@@ -7,6 +7,7 @@ const key = {
 		40: 'down',
 		88: 'attack',
 		90: 'jump',
+		67: 'slide'
 	}
 }
 
@@ -22,7 +23,13 @@ const gameBackground ={
 	gameBox: document.querySelector('.game')
 }
 const stageInfo ={
-	stage: []
+	stage: [],
+	totalScore: 0,
+	monster: [
+		{defaultMon : greenMon, bossMon: greenMonBoss},
+		{defaultMon : yellowMon, bossMon: yellowMonBoss},
+		{defaultMon : pinkMon, bossMon: pinkMonBoss}
+	]
 }
 const gameProp = {
   screenWidth : window.innerWidth,

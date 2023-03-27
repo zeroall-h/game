@@ -24,9 +24,9 @@ class Stage{
   callMonster(){
     for(let i=0;i<=10;i++){
       if(i === 10){
-        allMonsterComProp.arr[i] = new Monster(greenMonBoss, hero.movex + gameProp.screenWidth + 600 * i);
+        allMonsterComProp.arr[i] = new Monster(stageInfo.monster[this.level].bossMon, hero.movex + gameProp.screenWidth + 600 * i);
       }else{
-        allMonsterComProp.arr[i] = new Monster(greenMon, hero.movex + gameProp.screenWidth + 700 * i);
+        allMonsterComProp.arr[i] = new Monster(stageInfo.monster[this.level].defaultMon, hero.movex + gameProp.screenWidth + 700 * i);
       }
     }
   }
@@ -34,9 +34,13 @@ class Stage{
     if(allMonsterComProp.arr.length === 0 && this.isStart) {
       this.isStart=false;
       this.level++;
-      this.stageGuide('CLEAR!!')
-      this.stageStart();
-      
+      if(this.level < stageInfo.monster.length){
+        this.stageGuide('CLEAR!!')
+        this.stageStart();
+        hero.heroUpgrade();
+      }else{
+        this.stageGuide('ALL CLEAR!!')
+      }      
     }
   }
 }
@@ -47,12 +51,13 @@ class Hero {
     this.movex = 0;
     this.speed = 11;
     this.direction = 'right';
-    this.attackDamage = 55510000;
+    this.attackDamage = 10000;
     this.parentNode = document.querySelector('.hero_box')
     this.hpProgress = 0;
-    this.hpValue = 5510000;
+    this.hpValue = 10000000;
     this.defalutHpValue = this.hpValue;
     this.realDamage = 0;
+    this.slideSpeed = 14;
 	}
 	keyMotion(){
 		if(key.keyDown['left']){
@@ -85,6 +90,12 @@ class Hero {
         bulletComProp.launch=true;
       }
 				}
+        if(key.keyDown['slide']){
+          this.el.classList.add('slide');
+          if(this.direction === 'right'){
+            this.movex = this.movex + this.slideSpeed;
+          }
+        }
 
         if(key.keyDown['attack'] && key.keyDown['jump']){
           if(!bulletComProp.launch){
@@ -103,6 +114,9 @@ class Hero {
       bulletComProp.launch=false;
  
 		}
+    if(!key.keyDown['slide']){
+      this.el.classList.remove('slide');
+    }
     this.el.parentNode.style.transform = `translateX(${this.movex}px)`
 	}
   // 캐릭터 위치값 알아내기
@@ -140,6 +154,10 @@ class Hero {
   }
   hitDamage(){
     this.realDamage = this.attackDamage - Math.round(Math.random() * this.attackDamage * 0.1);
+  }
+  heroUpgrade(){
+    this.speed += 1.3;
+    this.attackDamage += 15000;
   }
 }
 
@@ -238,6 +256,7 @@ class Monster{
     this.moveX = 0;
     this.speed = property.speed;
     this.crashDamage = property.crashDamage;
+    this.score = property.score;
     this.init()
   }
   init(){
@@ -270,6 +289,7 @@ class Monster{
     setTimeout(()=>this.el.remove(), 200);
     // 성능에 문제가 생기기 때문에 splice 로 제거해줌
     allMonsterComProp.arr.splice(index,1);
+    this.setScore();
   }
   moveMonster(){
      // 1. 몬스터 이동 거리 2. 몬스터 속도
@@ -288,6 +308,10 @@ class Monster{
     if( hero.position().right - rightDiff > this.position().left && hero.position().left + leftDiff < this.position().right){
       hero.updateHp(this.crashDamage);
     }
+  }
+  setScore(){
+    stageInfo.totalScore += this.score;
+    document.querySelector('.score_box').innerText = stageInfo.totalScore;
   }
 }
 
